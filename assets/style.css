@@ -135,7 +135,9 @@ table {
   border-spacing: 0;
 }
 body {
+  line-height: 1;
 }
+
 section {
   margin-block: 6em;
 }
