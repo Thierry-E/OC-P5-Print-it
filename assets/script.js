@@ -22,33 +22,37 @@ const slides = [
 let index = 0
 
 /*** Étape 2 : Ajouts des Event Listeners sur les flèches ***/
-let arrow_left = document.querySelector('.arrow_left')
+const arrow_left = document.querySelector('.arrow_left')
 arrow_left.addEventListener('click', () => {
   console.log("J'ai cliqué sur la flêche de gauche !")
   index--
+  if (index < 0) {
+    index = slides.lenght - 1
+  }
   banner()
-  slides()
 })
 
-let arrow_right = document.querySelector('.arrow_right')
+const arrow_right = document.querySelector('.arrow_right')
 arrow_right.addEventListener('click', () => {
   console.log("J'ai cliqué sur la flêche de droite !")
   index++
+  if (index >= slides.length) {
+    index = 0
+  }
   banner()
-  slides()
 })
 
 /***Etape 3 : Ajouts des bullet points***/
 /*Création des bullet points*/
-const dots = document.querySelector('.dots')
+const dots_container = document.querySelector('.dots')
 
-slides.forEach((slides, index) => {
+slides.forEach((slide, index) => {
   const dot = document.createElement('div')
   dot.classList.add('dot')
-  if (index === activeIndex) {
+  if (index === 0) {
     dot.classList.add('dot_selected')
   }
-  dots.appendChild(dot)
+  dots_container.appendChild(dot)
 })
 
 /****Etape 4 : Modifier le slide au clic sur le bouton ***/
@@ -59,20 +63,40 @@ console.log('banner_Txt', banner_Txt)
 function banner() {
   banner_Img.src = `./assets/images/slideshow/${slides[index].image}`
   banner_Txt.innerHTML = slides[index].tagLine
-  update_Dots()
+  updateDots()
 }
 console.log('slides', slides)
 
 /****Etape 5 : Mise à jour des bullet dots***/
-const dot = document.querySelectorall('.dots .dot')
-function update_Dots() {
-  console.log('dot', dot)
-  console.log('index', index)
-  dots.forEach((dot, indexdot) => {
-    if (indexdot === index) {
+function updateDots() {
+  const dots = document.querySelectorAll('.dots .dot')
+  dots.forEach((dot, indexDot) => {
+    if (indexDot === index) {
       dot.classList.add('dot_selected')
     } else {
       dot.classList.remove('dot_selected')
     }
   })
 }
+
+// /*** Automatiser le carrousel ***/
+
+/*** Passage automatique à l'image suivante***/
+function autoSlide() {
+  index++
+  if (index >= slides.length) {
+    index = 0
+  }
+  banner()
+}
+
+/*** Création d'un intervalle régulier***/
+function startCarousel() {
+  banner() // Affiche la première diapositive
+  setInterval(autoSlide, 5000) // Change de diapositive toutes les 3 secondes
+}
+
+/*** Lancement de l'automatisation du caroussel au chargement de la page***/
+window.addEventListener('load', () => {
+  startCarousel()
+})
