@@ -27,7 +27,7 @@ arrow_left.addEventListener('click', () => {
   console.log("J'ai cliqué sur la flêche de gauche !")
   index--
   if (index < 0) {
-    index = slides.lenght - 1
+    index = slides.length - 1
   }
   banner()
 })
@@ -46,13 +46,30 @@ arrow_right.addEventListener('click', () => {
 /*Création des bullet points*/
 const dots_container = document.querySelector('.dots')
 
+const dots = [] //Création d'un tableau pour stocker les dots
+
 slides.forEach((slide, index) => {
-  const dot = document.createElement('div')
+  const dot = document.createElement('a')
   dot.classList.add('dot')
   if (index === 0) {
     dot.classList.add('dot_selected')
   }
+
+  /***Ajout d'un lien vers l'image sur les bullet points ***/
+  dot.href = `./assets/images/slideshow/${slides[index].image}`
+
+  dots.push(dot) //Ajout de chaque dot au tableau dots
+
   dots_container.appendChild(dot)
+})
+
+/***Ecoute d'un événement au click sur les bullets points ***/
+dots.forEach((dot, indexDot) => {
+  dot.addEventListener('click', (event) => {
+    event.preventDefault() // Empêche le lien de suivre.
+    index = indexDot // Mise à jour de l'index avec l'index du dot cliqué.
+    banner() // Changez l'image dans la bannière.
+  })
 })
 
 /****Etape 4 : Modifier le slide au clic sur le bouton ***/
@@ -77,26 +94,31 @@ function updateDots() {
       dot.classList.remove('dot_selected')
     }
   })
+
+  //Actualise les liens href des dots, pointe vers la nouvelle images
+  dots.forEach((dot, indexDot) => {
+    dot.href = `./assets/images/slideshow/${slides[indexDot].image}`
+  })
 }
 
-// /*** Automatiser le carrousel ***/
+// // /*** Automatiser le carrousel ***/
 
-/*** Passage automatique à l'image suivante***/
-function autoSlide() {
-  index++
-  if (index >= slides.length) {
-    index = 0
-  }
-  banner()
-}
+// /*** Passage automatique à l'image suivante***/
+// function autoSlide() {
+//   index++
+//   if (index >= slides.length) {
+//     index = 0
+//   }
+//   banner()
+// }
 
-/*** Création d'un intervalle régulier***/
-function startCarousel() {
-  banner() // Affiche la première diapositive
-  setInterval(autoSlide, 5000) // Change de diapositive toutes les 3 secondes
-}
+// /*** Création d'un intervalle régulier***/
+// function startCarousel() {
+//   banner() // Affiche la première diapositive
+//   setInterval(autoSlide, 5000) // Change de diapositive toutes les 3 secondes
+// }
 
-/*** Lancement de l'automatisation du caroussel au chargement de la page***/
-window.addEventListener('load', () => {
-  startCarousel()
-})
+// /*** Lancement de l'automatisation du caroussel au chargement de la page***/
+// window.addEventListener('load', () => {
+//   startCarousel()
+// })
