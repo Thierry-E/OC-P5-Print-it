@@ -100,25 +100,3 @@ function updateDots() {
     dot.href = `./assets/images/slideshow/${slides[indexDot].image}`
   })
 }
-
-// // /*** Automatiser le carrousel ***/
-
-// /*** Passage automatique à l'image suivante***/
-// function autoSlide() {
-//   index++
-//   if (index >= slides.length) {
-//     index = 0
-//   }
-//   banner()
-// }
-
-// /*** Création d'un intervalle régulier***/
-// function startCarousel() {
-//   banner() // Affiche la première diapositive
-//   setInterval(autoSlide, 5000) // Change de diapositive toutes les 3 secondes
-// }
-
-// /*** Lancement de l'automatisation du caroussel au chargement de la page***/
-// window.addEventListener('load', () => {
-//   startCarousel()
-// })
